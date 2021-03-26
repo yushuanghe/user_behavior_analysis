@@ -4,7 +4,7 @@ import com.shuanghe.hotitems.analysis.aggregate.CountAggFunc;
 import com.shuanghe.hotitems.analysis.map.Data6ParserMapFunc;
 import com.shuanghe.hotitems.analysis.model.ItemViewCountEvent;
 import com.shuanghe.hotitems.analysis.model.RawData6Event;
-import com.shuanghe.hotitems.analysis.window.ItemViewWindowResult;
+import com.shuanghe.hotitems.analysis.window.ItemCountViewWindowResult;
 import org.apache.flink.streaming.api.TimeCharacteristic;
 import org.apache.flink.streaming.api.datastream.DataStream;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
@@ -32,9 +32,9 @@ public class HotItems {
         inputStream.print();
 
         DataStream<ItemViewCountEvent> aggStream = inputStream.filter(data -> "start".equals(data.getBehavior()))
-                .keyBy(data -> data.getAppId())
+                .keyBy(RawData6Event::getAppId)
                 .timeWindow(Time.hours(1), Time.minutes(5))
-                .aggregate(new CountAggFunc(), new ItemViewWindowResult());
+                .aggregate(new CountAggFunc(), new ItemCountViewWindowResult());
 
         env.execute("hot_items");
     }

@@ -4,7 +4,7 @@ import com.shuanghe.hotitems.analysis.model.RawData6Event;
 import org.apache.flink.api.common.functions.AggregateFunction;
 
 /**
- * Description:
+ * Description:自定义预聚合函数 AggregateFunction ，聚合状态就是当前的count值
  * Date: 2021-03-26
  * Time: 18:39
  *
@@ -13,21 +13,28 @@ import org.apache.flink.api.common.functions.AggregateFunction;
 public class CountAggFunc implements AggregateFunction<RawData6Event, Long, Long> {
     @Override
     public Long createAccumulator() {
-        return null;
+        return 0L;
     }
 
+    /**
+     * 每来一条数据调用一次add，count值加一
+     *
+     * @param value
+     * @param accumulator
+     * @return
+     */
     @Override
     public Long add(RawData6Event value, Long accumulator) {
-        return null;
+        return accumulator + 1;
     }
 
     @Override
     public Long getResult(Long accumulator) {
-        return null;
+        return accumulator;
     }
 
     @Override
     public Long merge(Long a, Long b) {
-        return null;
+        return a + b;
     }
 }

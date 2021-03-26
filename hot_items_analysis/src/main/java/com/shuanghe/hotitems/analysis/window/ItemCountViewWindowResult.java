@@ -12,7 +12,7 @@ import org.apache.flink.util.Collector;
  *
  * @author yushu
  */
-public class ItemViewWindowResult implements WindowFunction<Long, ItemViewCountEvent, String, TimeWindow> {
+public class ItemCountViewWindowResult implements WindowFunction<Long, ItemViewCountEvent, String, TimeWindow> {
     @Override
     public void apply(String s, TimeWindow window, Iterable<Long> input, Collector<ItemViewCountEvent> out) throws Exception {
 
