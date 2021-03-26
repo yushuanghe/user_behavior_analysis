@@ -4,18 +4,20 @@ import java.io.Serializable;
 
 /**
  * 定义输入数据
+ *
+ * @author yushu
  */
 public class RawData6Event implements Serializable {
     private String uid;
-    private int appId;
-    private String appName;
+    private String appId;
+    private int channelId;
     private String behavior;
     private long timestamp;
 
-    public RawData6Event(String uid, int appId, String appName, String behavior, long timestamp) {
+    public RawData6Event(String uid, String appId, int channelId, String behavior, long timestamp) {
         this.uid = uid;
         this.appId = appId;
-        this.appName = appName;
+        this.channelId = channelId;
         this.behavior = behavior;
         this.timestamp = timestamp;
     }
@@ -28,20 +30,20 @@ public class RawData6Event implements Serializable {
         this.uid = uid;
     }
 
-    public int getAppId() {
+    public String getAppId() {
         return appId;
     }
 
-    public void setAppId(int appId) {
+    public void setAppId(String appId) {
         this.appId = appId;
     }
 
-    public String getAppName() {
-        return appName;
+    public int getChannelId() {
+        return channelId;
     }
 
-    public void setAppName(String appName) {
-        this.appName = appName;
+    public void setChannelId(int channelId) {
+        this.channelId = channelId;
     }
 
     public String getBehavior() {
@@ -58,5 +60,16 @@ public class RawData6Event implements Serializable {
 
     public void setTimestamp(long timestamp) {
         this.timestamp = timestamp;
+    }
+
+    @Override
+    public String toString() {
+        return "RawData6Event{" +
+                "uid='" + uid + '\'' +
+                ", appId='" + appId + '\'' +
+                ", channelId=" + channelId +
+                ", behavior='" + behavior + '\'' +
+                ", timestamp=" + timestamp +
+                '}';
     }
 }

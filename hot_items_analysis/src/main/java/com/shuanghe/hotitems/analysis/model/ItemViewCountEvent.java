@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 /**
  * 定义窗口聚合结果
+ * @author yushu
  */
 public class ItemViewCountEvent implements Serializable {
     private String itemId;
