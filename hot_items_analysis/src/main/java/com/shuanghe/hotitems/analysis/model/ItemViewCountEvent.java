@@ -4,25 +4,26 @@ import java.io.Serializable;
 
 /**
  * 定义窗口聚合结果
+ *
  * @author yushu
  */
 public class ItemViewCountEvent implements Serializable {
-    private String itemId;
+    private String appId;
     private long windowEnd;
     private long count;
 
-    public ItemViewCountEvent(String itemId, long windowEnd, long count) {
-        this.itemId = itemId;
+    public ItemViewCountEvent(String appId, long windowEnd, long count) {
+        this.appId = appId;
         this.windowEnd = windowEnd;
         this.count = count;
     }
 
-    public String getItemId() {
-        return itemId;
+    public String getAppId() {
+        return appId;
     }
 
-    public void setItemId(String itemId) {
-        this.itemId = itemId;
+    public void setAppId(String appId) {
+        this.appId = appId;
     }
 
     public long getWindowEnd() {
