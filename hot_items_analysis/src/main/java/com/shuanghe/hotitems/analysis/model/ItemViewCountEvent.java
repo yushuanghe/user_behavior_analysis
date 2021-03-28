@@ -41,4 +41,13 @@ public class ItemViewCountEvent implements Serializable {
     public void setCount(long count) {
         this.count = count;
     }
+
+    @Override
+    public String toString() {
+        return "ItemViewCountEvent{" +
+                "appId='" + appId + '\'' +
+                ", windowEnd=" + windowEnd +
+                ", count=" + count +
+                '}';
+    }
 }

@@ -33,6 +33,13 @@ public class CountAggFunc implements AggregateFunction<RawData6Event, Long, Long
         return accumulator;
     }
 
+    /**
+     * sessionWindow 里做窗口合并使用
+     *
+     * @param a
+     * @param b
+     * @return
+     */
     @Override
     public Long merge(Long a, Long b) {
         return a + b;
