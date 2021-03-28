@@ -87,10 +87,7 @@ public class HotItemsSql {
         ////Table resultTable = tableEnv.sqlQuery("select * from aggTable");
 
         //纯sql实现
-        Table resultTable = tableEnv.sqlQuery("select * from (select *,row_number() over (partition by windowEnd order" +
-                " by cnt desc) as rnk from (select appId,hop_end(ts,interval '1' second,interval '1' hour) as " +
-                "windowEnd,count(1) as cnt from dataTable where behavior='start' group by " +
-                "appId,hop(ts,interval '1' second,interval '1' hour)) t) t where rnk<=5");
+        Table resultTable = tableEnv.sqlQuery("select * from (select *,row_number() over (partition by windowEnd order by cnt desc) as rnk from (select appId,hop_end(ts,interval '1' second,interval '1' hour) as windowEnd,count(1) as cnt from dataTable where behavior='start' group by appId,hop(ts,interval '1' second,interval '1' hour)) t) t where rnk<=5");
         tableEnv.toRetractStream(resultTable, Row.class).print();
 
         env.execute("hot_items_sql");
