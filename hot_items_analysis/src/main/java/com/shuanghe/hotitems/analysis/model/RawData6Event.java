@@ -14,6 +14,12 @@ public class RawData6Event implements Serializable {
     private String behavior;
     private long timestamp;
 
+    /**
+     * table api 需要
+     */
+    public RawData6Event() {
+    }
+
     public RawData6Event(String uid, String appId, int channelId, String behavior, long timestamp) {
         this.uid = uid;
         this.appId = appId;
