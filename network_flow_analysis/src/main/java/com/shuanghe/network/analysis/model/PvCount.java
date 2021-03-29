@@ -2,28 +2,13 @@ package com.shuanghe.network.analysis.model;
 
 import java.io.Serializable;
 
-/**
- * 窗口聚合结果
- *
- * @author yushu
- */
-public class UrlViewCount implements Serializable {
-    private String url;
+public class PvCount implements Serializable {
     private long windowEnd;
     private long count;
 
-    public UrlViewCount(String url, long windowEnd, long count) {
-        this.url = url;
+    public PvCount(long windowEnd, long count) {
         this.windowEnd = windowEnd;
         this.count = count;
-    }
-
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
     }
 
     public long getWindowEnd() {
@@ -44,9 +29,8 @@ public class UrlViewCount implements Serializable {
 
     @Override
     public String toString() {
-        return "UrlViewCount{" +
-                "url='" + url + '\'' +
-                ", windowEnd=" + windowEnd +
+        return "PvCount{" +
+                "windowEnd=" + windowEnd +
                 ", count=" + count +
                 '}';
     }

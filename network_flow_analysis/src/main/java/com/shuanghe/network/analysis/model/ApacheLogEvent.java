@@ -1,11 +1,13 @@
 package com.shuanghe.network.analysis.model;
 
+import java.io.Serializable;
+
 /**
  * 输入数据
  *
  * @author yushu
  */
-public class ApacheLogEvent {
+public class ApacheLogEvent implements Serializable {
     private String ip;
     private String userId;
     private long timestamp;

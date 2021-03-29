@@ -8,7 +8,7 @@ package com.shuanghe.network.analysis.constant;
  * @author yushu
  */
 public class KafkaConstant {
-    public static final String KAFKA_PROP_NAME = "hot_items_analysis/src/main/resources/kafka_config.properties";
+    public static final String KAFKA_PROP_NAME = "network_flow_analysis/src/main/resources/kafka_config.properties";
 
     public static final String KAFKA_BOOTSTRAP_SERVERS = "bootstrap.servers";
 
