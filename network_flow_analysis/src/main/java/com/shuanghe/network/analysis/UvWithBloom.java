@@ -1,7 +1,6 @@
 package com.shuanghe.network.analysis;
 
 import com.shuanghe.network.analysis.map.Data6ParserMapFunc;
-import com.shuanghe.network.analysis.model.PvKeyByModel;
 import com.shuanghe.network.analysis.model.RawData6Event;
 import com.shuanghe.network.analysis.model.UvCount;
 import com.shuanghe.network.analysis.process.UvCountWithBloom;
@@ -39,7 +38,7 @@ public class UvWithBloom {
                         return element.getTimestamp();
                     }
                 });
-        inputStream.print("input");
+        //inputStream.print("input");
 
         SingleOutputStreamOperator<UvCount> uvStream = inputStream
                 .filter(data -> data.getBehavior() != null)
@@ -52,6 +51,7 @@ public class UvWithBloom {
                 //自定义触发器
                 .trigger(new UvCountWithBloomTrigger())
                 .process(new UvCountWithBloom());
+        uvStream.print("uv");
 
         env.execute("uv_bloom");
     }
