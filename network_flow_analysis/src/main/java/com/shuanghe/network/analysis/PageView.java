@@ -37,7 +37,7 @@ public class PageView {
                         return element.getTimestamp();
                     }
                 });
-        inputStream.print();
+        inputStream.print("input");
 
         DataStream<PvCount> pvStream = inputStream
                 .filter(data -> data.getBehavior() != null)
@@ -46,14 +46,14 @@ public class PageView {
                 .keyBy(PvKeyByModel::getKey)
                 .timeWindow(Time.hours(1))
                 .aggregate(new PvCountAgg(), new PvCountWindowResult());
-        pvStream.print();
+        pvStream.print("pv");
 
         SingleOutputStreamOperator<PvCount> totalPvStream = pvStream
                 .keyBy(PvCount::getWindowEnd)
                 //.reduce(new PvTotalCountAgg())
                 //reduce每来一条数据计算输出一次
                 .process(new PvTotalCountProcess());
-        totalPvStream.print();
+        totalPvStream.print("total_result");
 
         env.execute("pg job");
     }

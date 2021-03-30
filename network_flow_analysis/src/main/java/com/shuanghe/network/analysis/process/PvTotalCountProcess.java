@@ -11,13 +11,16 @@ import org.apache.flink.util.Collector;
  * @author yushu
  */
 public class PvTotalCountProcess extends KeyedProcessFunction<Long, PvCount, PvCount> {
+    /**
+     * 保存pv总和
+     */
     private ValueState<Long> pvTotalValueState = null;
 
     @Override
     public void processElement(PvCount value, Context ctx, Collector<PvCount> out) throws Exception {
         long count = value.getCount();
-        // TODO: 2021-03-30 未完成 
-        long currentPv = pvTotalValueState.value();
+        //状态需要手动判断是否初始化
+        long currentPv = pvTotalValueState.value() == null ? 0 : pvTotalValueState.value();
         pvTotalValueState.update(currentPv + count);
         ctx.timerService().registerEventTimeTimer(value.getWindowEnd() + 1);
     }
