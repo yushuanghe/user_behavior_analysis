@@ -1,13 +1,11 @@
 package com.shuanghe.network.analysis;
 
-import com.shuanghe.network.analysis.aggregate.PvCountAgg;
 import com.shuanghe.network.analysis.map.Data6ParserMapFunc;
-import com.shuanghe.network.analysis.map.MyMapper;
-import com.shuanghe.network.analysis.model.PvCount;
 import com.shuanghe.network.analysis.model.PvKeyByModel;
 import com.shuanghe.network.analysis.model.RawData6Event;
-import com.shuanghe.network.analysis.process.PvTotalCountProcess;
-import com.shuanghe.network.analysis.window.PvCountWindowResult;
+import com.shuanghe.network.analysis.model.UvCount;
+import com.shuanghe.network.analysis.process.UvCountWithBloom;
+import com.shuanghe.network.analysis.trigger.UvCountWithBloomTrigger;
 import org.apache.flink.streaming.api.TimeCharacteristic;
 import org.apache.flink.streaming.api.datastream.DataStream;
 import org.apache.flink.streaming.api.datastream.SingleOutputStreamOperator;
@@ -18,15 +16,19 @@ import org.apache.flink.streaming.api.windowing.time.Time;
 import java.net.URL;
 
 /**
+ * Description:
+ * Date: 2021-03-30
+ * Time: 21:41
+ *
  * @author yushu
  */
-public class PageView {
+public class UvWithBloom {
     public static void main(String[] args) throws Exception {
         StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
         env.setStreamTimeCharacteristic(TimeCharacteristic.EventTime);
         //env.setParallelism(1);
 
-        URL resource = PageView.class.getResource("/data-6.log");
+        URL resource = UniqueVisitor.class.getResource("/data-6.log");
         System.out.println(resource);
 
         DataStream<RawData6Event> inputStream = env.readTextFile(resource.getPath())
@@ -39,22 +41,18 @@ public class PageView {
                 });
         inputStream.print("input");
 
-        DataStream<PvCount> pvStream = inputStream
+        SingleOutputStreamOperator<UvCount> uvStream = inputStream
                 .filter(data -> data.getBehavior() != null)
-                //定义一个pv字符串作为分组的 dummy key
-                .map(new MyMapper())
-                .keyBy(PvKeyByModel::getKey)
+                .map(data -> {
+                    data.setAppId("uv");
+                    return data;
+                })
+                .keyBy(RawData6Event::getAppId)
                 .timeWindow(Time.hours(1))
-                .aggregate(new PvCountAgg(), new PvCountWindowResult());
-        pvStream.print("pv");
+                //自定义触发器
+                .trigger(new UvCountWithBloomTrigger())
+                .process(new UvCountWithBloom());
 
-        SingleOutputStreamOperator<PvCount> totalPvStream = pvStream
-                .keyBy(PvCount::getWindowEnd)
-                //.reduce(new PvTotalCountAgg())
-                //reduce每来一条数据计算输出一次
-                .process(new PvTotalCountProcess());
-        totalPvStream.print("total_result");
-
-        env.execute("pv_job");
+        env.execute("uv_bloom");
     }
 }

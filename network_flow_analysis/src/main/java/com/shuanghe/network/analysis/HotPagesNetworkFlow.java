@@ -84,6 +84,6 @@ public class HotPagesNetworkFlow {
                 .process(new TopNHotPages(3));
         resultStream.print("result");
 
-        env.execute("hot pages");
+        env.execute("hot_pages");
     }
 }
