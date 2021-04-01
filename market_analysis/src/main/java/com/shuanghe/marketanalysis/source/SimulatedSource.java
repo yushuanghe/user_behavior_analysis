@@ -40,7 +40,7 @@ public class SimulatedSource extends RichSourceFunction<MarketUserBehavior> {
 
             ctx.collect(new MarketUserBehavior(uid, behavior, channel, System.currentTimeMillis()));
             count++;
-            Thread.sleep(50L);
+            Thread.sleep(5L);
         }
     }
 

@@ -32,7 +32,7 @@ public class AppMarketByChannel {
                         return element.getTimestamp();
                     }
                 });
-        dataStream.print();
+        //dataStream.print();
 
         DataStream<MarketViewCount> resultStream = dataStream
                 .filter(data -> !"uninstall".equals(data.getBehavior()))
