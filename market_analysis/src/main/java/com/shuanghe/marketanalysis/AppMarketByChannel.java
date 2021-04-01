@@ -1,7 +1,11 @@
 package com.shuanghe.marketanalysis;
 
+import com.shuanghe.marketanalysis.keyby.MyKeySelector;
 import com.shuanghe.marketanalysis.model.MarketUserBehavior;
+import com.shuanghe.marketanalysis.model.MarketViewCount;
+import com.shuanghe.marketanalysis.process.MarketCountByChannel;
 import com.shuanghe.marketanalysis.source.SimulatedSource;
+import org.apache.flink.api.java.tuple.Tuple2;
 import org.apache.flink.streaming.api.TimeCharacteristic;
 import org.apache.flink.streaming.api.datastream.DataStream;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
@@ -30,9 +34,12 @@ public class AppMarketByChannel {
                 });
         dataStream.print();
 
-        dataStream
-                .filter(data -> !"uninstall".equals(data.getBehavior()));
-        //.keyBy(data->)
+        DataStream<MarketViewCount> resultStream = dataStream
+                .filter(data -> !"uninstall".equals(data.getBehavior()))
+                .keyBy(new MyKeySelector())
+                .timeWindow(Time.days(1), Time.seconds(5))
+                .process(new MarketCountByChannel());
+        resultStream.print("result");
 
         env.execute("market_channel");
     }
