@@ -13,6 +13,7 @@
         <module>network_flow_analysis</module>
         <module>market_analysis</module>
         <module>login_fail_detect</module>
+        <module>order_pay_detect</module>
     </modules>
 
     <properties>

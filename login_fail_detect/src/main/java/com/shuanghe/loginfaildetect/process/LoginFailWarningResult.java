@@ -13,6 +13,9 @@ import org.apache.flink.util.Collector;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author yushu
+ */
 public class LoginFailWarningResult extends KeyedProcessFunction<String, LoginEvent, LoginFailWarning> {
     private final int detectPeriod;
     private final int failTimes;

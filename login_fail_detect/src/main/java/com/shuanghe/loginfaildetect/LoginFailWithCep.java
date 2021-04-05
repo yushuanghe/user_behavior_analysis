@@ -46,6 +46,7 @@ public class LoginFailWithCep {
                 .next("load2").where(new MyLoadConditionCep())
                 //连续三次load
                 .next("load3").where(new MyLoadConditionCep())
+                //时间约束
                 .within(Time.seconds(2L));
 
         /*

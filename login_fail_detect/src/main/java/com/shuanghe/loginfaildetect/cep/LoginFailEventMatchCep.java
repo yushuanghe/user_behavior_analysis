@@ -7,10 +7,13 @@ import org.apache.flink.cep.PatternSelectFunction;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * @author yushu
+ */
 public class LoginFailEventMatchCep implements PatternSelectFunction<LoginEvent, LoginFailWarning> {
     /**
-     * @param pattern key：检测的名称
-     *                value：检测到的事件
+     * @param pattern key：个体模式对应的名称
+     *                value：检测到的事件，如果定义量词，可以检测到多个事件
      * @return
      * @throws Exception
      */
