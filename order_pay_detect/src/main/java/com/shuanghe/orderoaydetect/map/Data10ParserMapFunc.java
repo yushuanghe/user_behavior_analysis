@@ -1,7 +1,7 @@
 package com.shuanghe.orderoaydetect.map;
 
 import com.alibaba.fastjson.JSONObject;
-import com.shuanghe.orderoaydetect.model.OrderEvent;
+import com.shuanghe.orderoaydetect.model.ReceiptEvent;
 import com.shuanghe.orderoaydetect.util.SimpleDataFormatter;
 import com.shuanghe.orderoaydetect.util.StringUtilsPlus;
 import org.apache.flink.api.common.functions.FlatMapFunction;
@@ -10,15 +10,11 @@ import org.apache.flink.util.Collector;
 import java.util.Map;
 
 /**
- * Description:
- * Date: 2021-03-25
- * Time: 20:52
- *
  * @author yushu
  */
-public class Data6ParserMapFunc implements FlatMapFunction<String, OrderEvent> {
+public class Data10ParserMapFunc implements FlatMapFunction<String, ReceiptEvent> {
     @Override
-    public void flatMap(String value, Collector<OrderEvent> out) throws Exception {
+    public void flatMap(String value, Collector<ReceiptEvent> out) throws Exception {
         if (StringUtilsPlus.isBlank(value)) {
             return;
         }
@@ -30,15 +26,14 @@ public class Data6ParserMapFunc implements FlatMapFunction<String, OrderEvent> {
             return;
         }
 
-        String requestId = String.valueOf(map.get("request_id"));
         String uid = String.valueOf(map.get("uid"));
-        String event = String.valueOf(map.get("category"));
+        String packageName = String.valueOf(map.get("package_name"));
         long timestamp = 0;
         try {
             timestamp = Long.parseLong(String.valueOf(map.get("ts")));
         } catch (Exception ignored) {
         }
 
-        out.collect(new OrderEvent(requestId, event, uid, timestamp));
+        out.collect(new ReceiptEvent(uid, packageName, timestamp));
     }
 }
