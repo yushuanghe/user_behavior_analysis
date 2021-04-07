@@ -27,7 +27,7 @@ public class OrderTimeoutWithoutCep {
         env.setStreamTimeCharacteristic(TimeCharacteristic.EventTime);
 
         //从文件中读取数据
-        URL resource = OrderTimeout.class.getResource("/data-6.log");
+        URL resource = OrderTimeoutWithoutCep.class.getResource("/data-6.log");
         KeyedStream<OrderEvent, String> orderEventDataStream = env.readTextFile(resource.getPath())
                 .flatMap(new Data6ParserMapFunc())
                 .assignTimestampsAndWatermarks(new BoundedOutOfOrdernessTimestampExtractor<OrderEvent>(Time.milliseconds(1)) {
